@@ -9,6 +9,8 @@ const {
   poweredByHandler
 } = require('./handlers.js')
 
+const ai = require('./ai.js');
+
 // For deployment to Heroku, the port needs to be set using ENV, so
 // we check for the port number in process.env
 app.set('port', (process.env.PORT || 9001))
@@ -33,13 +35,15 @@ app.post('/start', (request, response) => {
   return response.json(data)
 })
 
+var currentDirection = 'up';
+
 // Handle POST request to '/move'
 app.post('/move', (request, response) => {
   // NOTE: Do something here to generate your move
 
   // Response data
   const data = {
-    move: 'up', // one of: ['up','down','left','right']
+    move: ai.getMove(request),
   }
 
   return response.json(data)
